@@ -1,0 +1,33 @@
+{
+  "name": "form-builder-kit",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "publish-package": "changeset publish",
+    "publish-project": "pnpm run changeset && pnpm run version && pnpm run build && pnpm run publish-package"
+  },
+  "keywords": [],
+  "author": "Eyuel Belete",
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@hookform/resolvers": "^3.9.0",
+    "@mantine/core": "^7.11.2",
+    "@mantine/hooks": "^7.11.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.3"
+  }
+}
