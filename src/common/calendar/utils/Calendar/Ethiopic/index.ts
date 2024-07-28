@@ -1,1 +1,0 @@
-export { EthiopicCalendar } from './EthiopicCalendar';

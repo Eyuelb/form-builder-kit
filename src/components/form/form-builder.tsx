@@ -1,58 +1,32 @@
-"use client";
-import React, { memo } from "react";
+import React, { useMemo } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { FormWrapper } from "./form-wrapper";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { contractDefaultValue } from "../../utils";
-import { constructSchema } from "../../schema";
-import { FormBuilderProps } from "../../model";
-import { Fields } from "../fields";
-import { useDeepMemo } from "../../hooks/useDeepMemo";
-import Button from "../button";
-import { LoadingOverlay, MantineProvider } from "@mantine/core";
+import { IFormBuilder } from "../../types";
+import { isFunction } from "../../utils";
+import ElementParser from "../elements/element-parser";
 
-export const FormBuilder: React.FC<FormBuilderProps<FieldValues>> = memo(
-  ({
-    fields,
-    onSubmit,
-    defaultValues,
-    className,
-    isLoading,
-    buttonProps,
-    buttonWrapperProps,
-    renderActionButton,
-    title,
-    children
-  }) => {
-    const Schema = constructSchema(fields);
-    const generatedDValue = contractDefaultValue(fields);
+const FormBuilder = <TFormValues extends FieldValues>({
+  schema,
+  onSubmit,
+  children,
+}: IFormBuilder<TFormValues>) => {
+  const form = useForm<TFormValues>();
+  const methods = useMemo(() => form, [form]);
+  return (
+    <FormProvider {...methods}>
+      <form
+        onSubmit={
+          onSubmit && isFunction(onSubmit)
+            ? methods.handleSubmit(onSubmit)
+            : undefined
+        }
+      >
+        {schema?.map((schema: any, index: any) => (
+          <ElementParser key={index} schema={schema} />
+        ))}
+        {children}
+      </form>
+    </FormProvider>
+  );
+};
 
-    const form = useForm({
-      resolver: zodResolver(Schema),
-      defaultValues: { ...generatedDValue, ...defaultValues },
-    });
-    const memoForm = useDeepMemo(() => form, [form]);
-    return (
-      <MantineProvider>
-      <FormProvider {...memoForm}>
-        <LoadingOverlay visible={isLoading} />
-
-        <FormWrapper onSubmitHandler={onSubmit} className={className}>
-          <div className="w-full">{title}</div>
-          <Fields fields={fields} />
-          {children}
-          {renderActionButton ? (
-            renderActionButton
-          ) : (
-            <div {...buttonWrapperProps}>
-              <Button type="submit" {...buttonProps} />
-            </div>
-          )}
-        </FormWrapper>
-      </FormProvider>
-      </MantineProvider>
-    );
-  }
-);
-
-FormBuilder.displayName = "FormBuilder";
+export default FormBuilder;

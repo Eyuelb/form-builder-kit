@@ -1,5 +1,11 @@
 # form-builder-kit
 
+## 3.0.0
+
+### Major Changes
+
+- this is an update on main config
+
 ## 2.0.2
 
 ### Patch Changes
