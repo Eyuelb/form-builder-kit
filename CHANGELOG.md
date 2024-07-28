@@ -1,5 +1,11 @@
 # form-builder-kit
 
+## 2.0.2
+
+### Patch Changes
+
+- added style provider context
+
 ## 2.0.1
 
 ### Patch Changes

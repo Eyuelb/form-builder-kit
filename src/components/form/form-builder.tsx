@@ -9,7 +9,7 @@ import { FormBuilderProps } from "../../model";
 import { Fields } from "../fields";
 import { useDeepMemo } from "../../hooks/useDeepMemo";
 import Button from "../button";
-import { LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay, MantineProvider } from "@mantine/core";
 
 export const FormBuilder: React.FC<FormBuilderProps<FieldValues>> = memo(
   ({
@@ -33,6 +33,7 @@ export const FormBuilder: React.FC<FormBuilderProps<FieldValues>> = memo(
     });
     const memoForm = useDeepMemo(() => form, [form]);
     return (
+      <MantineProvider>
       <FormProvider {...memoForm}>
         <LoadingOverlay visible={isLoading} />
 
@@ -49,6 +50,7 @@ export const FormBuilder: React.FC<FormBuilderProps<FieldValues>> = memo(
           )}
         </FormWrapper>
       </FormProvider>
+      </MantineProvider>
     );
   }
 );
